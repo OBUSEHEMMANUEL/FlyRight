@@ -46,10 +46,8 @@ public class PassengerServiceImpl implements PassengerService{
 var hashed = bcrypt(request.getPassword());
 
         Passenger passenger = new Passenger();
-        passenger.setDob(request.getDob());
         passenger.setEmailAddress(request.getEmailAddress());
         passenger.setFirstName(request.getFirstName());
-        passenger.setNationality(request.getNationality());
         passenger.setPassword(hashed);
         passenger.setLastName(request.getLastName());
         passenger.setPhoneNumber(request.getPhoneNumber());
@@ -63,7 +61,7 @@ var hashed = bcrypt(request.getPassword());
         emailService.send(request.getEmailAddress(),buildEmail(request.getEmailAddress(),token));
         return response;
     }
-    public String bcrypt(String password){
+   private String bcrypt(String password){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         var hashedPassword =   encoder.encode(password);
         return  hashedPassword;

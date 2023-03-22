@@ -19,8 +19,6 @@ public class Passenger {
     @NotNull(message = "This field is required")
     @NotEmpty(message = "This field is required")
     private String lastName;
-    private String dob;
-    private String nationality;
     @Email(message="This field requires a valid email address")
     private String emailAddress;
     @Pattern(regexp = "\\d{11}")
