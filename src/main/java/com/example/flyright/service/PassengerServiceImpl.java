@@ -13,7 +13,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
@@ -30,16 +30,16 @@ public class PassengerServiceImpl implements PassengerService{
 
     @Override
     public PassengerRegistrationResponse register(PassengerRegistrationRequest request) {
-//        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
-//        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
-
+        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
+        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
+var hashed = bcrypt(request.getPassword());
 
         Passenger passenger = new Passenger();
         passenger.setDob(request.getDob());
         passenger.setEmailAddress(request.getEmailAddress());
         passenger.setFirstName(request.getFirstName());
         passenger.setNationality(request.getNationality());
-        passenger.setPassword(request.getPassword());
+        passenger.setPassword(hashed);
         passenger.setLastName(request.getLastName());
         passenger.setPhoneNumber(request.getPhoneNumber());
         passengerRepo.save(passenger);
@@ -51,6 +51,12 @@ public class PassengerServiceImpl implements PassengerService{
         response.setToken(token);
 
         return response;
+    }
+    public String bcrypt(String password){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        var hashedPassword =   encoder.encode(password);
+        return  hashedPassword;
+
     }
     @Override
     public String generateToken(Passenger passenger) {
@@ -86,15 +92,15 @@ public class PassengerServiceImpl implements PassengerService{
     public LoginResponse login(LoginRequest loginRequest) {
         var foundUser = passengerRepo.findByEmailAddressIgnoreCase(loginRequest.getEmailAddress())
                 .orElseThrow(() -> new RuntimeException("email not found"));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        var matches =   encoder.matches(loginRequest.getPassword(), foundUser.getPassword());
         LoginResponse loginResponse = new LoginResponse();
-        if (foundUser.getPassword().equals(loginRequest.getPassword())) {
-            loginResponse.setMessage("login successful");
+        if(matches) {
             loginResponse.setStatusCode(HttpStatus.OK);
-        }
-        else {
-            loginResponse.setMessage("Re-login");
-            loginResponse.setStatusCode(HttpStatus.BAD_REQUEST);
-            throw new IllegalStateException("incorrect password");
+            loginResponse.setMessage("LOGIN SUCCESSFULLY");
+        } else {
+            loginResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+            loginResponse.setMessage("INVALID EMAIL OR PASSWORD");
         }
         return loginResponse;
     }
