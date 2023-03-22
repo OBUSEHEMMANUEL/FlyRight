@@ -101,6 +101,7 @@ var hashed = bcrypt(request.getPassword());
     }
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
+        String token = loginRequest.getEmailAddress();
         var foundUser = passengerRepo.findByEmailAddressIgnoreCase(loginRequest.getEmailAddress())
                 .orElseThrow(() -> new RuntimeException("email not found"));
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -108,6 +109,7 @@ var hashed = bcrypt(request.getPassword());
         LoginResponse loginResponse = new LoginResponse();
         if(matches) {
             loginResponse.setStatusCode(HttpStatus.OK);
+            loginResponse.setToken(token);
             loginResponse.setMessage("LOGIN SUCCESSFULLY");
         } else {
             loginResponse.setStatusCode(HttpStatus.UNAUTHORIZED);

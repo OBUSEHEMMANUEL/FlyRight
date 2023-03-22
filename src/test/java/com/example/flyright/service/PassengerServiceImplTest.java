@@ -35,7 +35,6 @@ class PassengerServiceImplTest {
 
     @Test
     void register() {
-
         assertEquals(HttpStatus.CREATED,passengerService.register(passenger).getStatusCode());
     }
 

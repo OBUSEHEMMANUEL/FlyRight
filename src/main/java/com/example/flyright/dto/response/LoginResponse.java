@@ -5,5 +5,6 @@ import org.springframework.http.HttpStatus;
 @Data
 public class LoginResponse {
     private  String message;
+    private String token;
     private HttpStatus statusCode;
 }
