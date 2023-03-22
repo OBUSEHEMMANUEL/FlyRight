@@ -28,8 +28,8 @@ class PassengerServiceImplTest {
         passenger.setLastName("Bolaji");
         passenger.setNationality("Nigeria");
         passenger.setPhoneNumber("07023453617");
-        passenger.setPassword("1234567");
-        passenger.setEmailAddress("obusehemmanuel208@gmail.com");
+        passenger.setPassword("7654321");
+        passenger.setEmailAddress("bolajiDisu208@gmail.com");
         passenger.setDob("12/03/2023");
     }
 
@@ -64,8 +64,6 @@ class PassengerServiceImplTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setPassword("1234567");
         loginRequest.setEmailAddress("obusehemmanuel208@gmail.com");
-
         assertEquals(HttpStatus.OK,passengerService.login(loginRequest).getStatusCode());
     }
-
 }
