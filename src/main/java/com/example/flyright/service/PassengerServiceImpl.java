@@ -41,8 +41,8 @@ public class PassengerServiceImpl implements PassengerService{
 
     @Override
     public PassengerRegistrationResponse register(PassengerRegistrationRequest request) {
-//        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
-//        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
+        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
+        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
 var hashed = bcrypt(request.getPassword());
 
         Passenger passenger = new Passenger();
