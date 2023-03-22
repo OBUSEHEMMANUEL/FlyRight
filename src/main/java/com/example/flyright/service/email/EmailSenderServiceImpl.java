@@ -1,4 +1,4 @@
-package com.example.flyright.email;
+package com.example.flyright.service.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

@@ -6,18 +6,27 @@ import com.example.flyright.data.repositories.PassengerRepo;
 import com.example.flyright.dto.request.ConfirmTokenRequest;
 import com.example.flyright.dto.request.LoginRequest;
 import com.example.flyright.dto.request.PassengerRegistrationRequest;
+import com.example.flyright.dto.request.PaymentRequest;
 import com.example.flyright.dto.response.LoginResponse;
 import com.example.flyright.dto.response.PassengerRegistrationResponse;
-import com.example.flyright.email.EmailSenderService;
-import jakarta.mail.MessagingException;
+import com.example.flyright.dto.response.PaymentResponse;
+import com.example.flyright.service.email.EmailSenderService;
+import com.squareup.okhttp.*;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.json.JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 @Service
+@Slf4j
 public class PassengerServiceImpl implements PassengerService{
     @Autowired
     PassengerRepo passengerRepo;
@@ -28,10 +37,12 @@ public class PassengerServiceImpl implements PassengerService{
     @Autowired
     EmailSenderService emailService;
 
+
+
     @Override
     public PassengerRegistrationResponse register(PassengerRegistrationRequest request) {
-        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
-        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
+//        boolean emailExist = passengerRepo.findByEmailAddressIgnoreCase (request.getEmailAddress()).isPresent();
+//        if (emailExist) throw new IllegalStateException("Email Address Already Exist");
 var hashed = bcrypt(request.getPassword());
 
         Passenger passenger = new Passenger();
@@ -44,12 +55,12 @@ var hashed = bcrypt(request.getPassword());
         passenger.setPhoneNumber(request.getPhoneNumber());
         passengerRepo.save(passenger);
        String token = generateToken(passenger);
-        emailService.send(request.getEmailAddress(), buildEmail(request.getEmailAddress(),token));
+
         PassengerRegistrationResponse response = new PassengerRegistrationResponse();
         response.setMessage("Created Successfully");
         response.setStatusCode(HttpStatus.CREATED);
         response.setToken(token);
-
+        emailService.send(request.getEmailAddress(),buildEmail(request.getEmailAddress(),token));
         return response;
     }
     public String bcrypt(String password){
@@ -106,8 +117,7 @@ var hashed = bcrypt(request.getPassword());
     }
 
 
-    public String buildEmail(String name, String link) {
-        System.out.println("Created");
+    private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -177,4 +187,6 @@ var hashed = bcrypt(request.getPassword());
                 "\n" +
                 "</div></div>";
     }
+
+
 }
