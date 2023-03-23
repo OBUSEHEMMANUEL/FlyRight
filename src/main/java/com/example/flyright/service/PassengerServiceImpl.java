@@ -33,6 +33,8 @@ public class PassengerServiceImpl implements PassengerService{
     @Autowired
     ConfirmationTokenService confirmationTokenService;
 
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     EmailSenderService emailService;
@@ -101,9 +103,12 @@ var hashed = bcrypt(request.getPassword());
     }
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        String token = loginRequest.getEmailAddress();
+
         var foundUser = passengerRepo.findByEmailAddressIgnoreCase(loginRequest.getEmailAddress())
                 .orElseThrow(() -> new RuntimeException("email not found"));
+
+        String token = jwtService.generateToken(foundUser.getFirstName(), foundUser.getLastName());
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         var matches =   encoder.matches(loginRequest.getPassword(), foundUser.getPassword());
         LoginResponse loginResponse = new LoginResponse();

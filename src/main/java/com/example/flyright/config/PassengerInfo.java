@@ -9,11 +9,15 @@ import java.util.List;
 
 public class PassengerInfo implements UserDetails {
 
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public PassengerInfo(Passenger passenger) {
+        firstName = passenger.getFirstName();
+        lastName = passenger.getLastName();
         email = passenger.getEmailAddress();
         password = passenger.getPassword();
 //        authorities = Arrays.stream(passenger.getRoles().split(","))
