@@ -105,7 +105,7 @@ var hashed = bcrypt(request.getPassword());
         var foundUser = passengerRepo.findByEmailAddressIgnoreCase(loginRequest.getEmailAddress())
                 .orElseThrow(() -> new RuntimeException("email not found"));
 
-        String token = jwtService.generateToken(foundUser.getFirstName(), foundUser.getLastName());
+        String token = jwtService.generateToken(foundUser.getEmailAddress());
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         var matches =   encoder.matches(loginRequest.getPassword(), foundUser.getPassword());

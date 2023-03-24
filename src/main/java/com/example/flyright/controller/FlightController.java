@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 
 @RestController
 @CrossOrigin("*")
+
 public class FlightController {
     @Autowired
     private FlightSchedule flightSchedule;
