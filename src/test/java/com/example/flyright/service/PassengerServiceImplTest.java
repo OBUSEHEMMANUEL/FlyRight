@@ -26,11 +26,9 @@ class PassengerServiceImplTest {
 
         passenger.setFirstName("Derek");
         passenger.setLastName("Bolaji");
-        passenger.setNationality("Nigeria");
         passenger.setPhoneNumber("07023453617");
         passenger.setPassword("7654321");
         passenger.setEmailAddress("bolajiDisu208@gmail.com");
-        passenger.setDob("12/03/2023");
     }
 
     @Test
@@ -44,11 +42,9 @@ class PassengerServiceImplTest {
 
         passenger.setFirstName("Derek");
         passenger.setLastName("Bolaji");
-        passenger.setNationality("Nigeria");
         passenger.setPhoneNumber("07023453617");
         passenger.setPassword("1234567");
         passenger.setEmailAddress("obusehemmanuel208@gmail.com");
-        passenger.setDob("12/03/2023");
       var response =  passengerService.register(passenger);
 
         tokenRequest = new ConfirmTokenRequest();
