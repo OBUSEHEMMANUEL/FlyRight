@@ -48,7 +48,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/passenger/register", "/api/v1/passenger/login").permitAll()
+                .requestMatchers("/api/v1/passenger/register", "/api/v1/passenger/login", "/api/v1/get-flights", "http://localhost:8080/*").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("")
                 .authenticated().and()
@@ -77,14 +77,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-//    @Bean
-//    CommandLineRunner runner(){
-//        JwtService jwt = new JwtService();
-//        System.out.println("Generating token...");
-//        System.out.println(jwt.generateToken("Bolaji"));
-//        return args -> System.out.printf("%s%s","printing signing_key " ,System.getenv("SIGNING_KEY"));
-//    }
 
 
 }
