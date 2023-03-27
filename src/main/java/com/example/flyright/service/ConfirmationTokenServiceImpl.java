@@ -24,6 +24,6 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService{
         confirmationTokenRepository.deleteConfirmationTokensByExpiredAtBefore(LocalDateTime.now());
     }
     public  void setConfirmed(String token ){
-        confirmationTokenRepository.confirmAt(LocalDateTime.now(),token);
+                confirmationTokenRepository.confirmAt(LocalDateTime.now(),token);
     }
 }

@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     private static String[] AUTH_WHITELIST = {
             "/api/v1/passenger/register",
-            "/api/v1/passenger/confirmPassword",
+            "/api/v1/passenger/confirmToken",
             "/api/v1/passenger/login",
             "/swagger-ui/**",
             "/v3/api-docs/**",

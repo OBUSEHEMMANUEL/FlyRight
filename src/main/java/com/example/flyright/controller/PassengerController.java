@@ -36,7 +36,7 @@ public class PassengerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/passenger/confirmPassword")
+    @PostMapping("/api/v1/passenger/confirmToken")
     public ResponseEntity<ApiResponse> confirmPassword(@RequestBody ConfirmTokenRequest confirmationToken, HttpServletRequest httpServletRequest) throws IOException {
         ApiResponse response = ApiResponse.builder()
                 .data(passengerService.confirmToken(confirmationToken))
