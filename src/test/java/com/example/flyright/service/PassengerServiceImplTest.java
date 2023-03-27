@@ -28,7 +28,7 @@ class PassengerServiceImplTest {
         passenger.setLastName("Bolaji");
         passenger.setPhoneNumber("07023453617");
         passenger.setPassword("7654321");
-        passenger.setEmailAddress("bolajiDisu208@gmail.com");
+        passenger.setEmailAddress("obusehemmanuel208@gmail.com");
     }
 
     @Test
@@ -38,14 +38,15 @@ class PassengerServiceImplTest {
 
     @Test
     void confirmPassword(){
-        passenger = new PassengerRegistrationRequest();
+     PassengerRegistrationRequest   passenger1 = new PassengerRegistrationRequest();
 
-        passenger.setFirstName("Derek");
-        passenger.setLastName("Bolaji");
-        passenger.setPhoneNumber("07023453617");
-        passenger.setPassword("1234567");
-        passenger.setEmailAddress("obusehemmanuel208@gmail.com");
+        passenger1.setFirstName("Derek");
+        passenger1.setLastName("MANUEL");
+        passenger1.setPhoneNumber("07023453617");
+        passenger1.setPassword("1234567");
+        passenger1.setEmailAddress("obusehemmanuel208@gmail.com");
       var response =  passengerService.register(passenger);
+        assertEquals(HttpStatus.CREATED,passengerService.register(passenger).getStatusCode());
 
         tokenRequest = new ConfirmTokenRequest();
         tokenRequest.setToken(response.getToken());
