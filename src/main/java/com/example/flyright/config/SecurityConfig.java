@@ -27,6 +27,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class SecurityConfig {
 
+    private static String[] AUTH_WHITELIST = {
+            "/api/v1/passenger/register",
+            "/api/v1/passenger/confirmPassword",
+            "/api/v1/passenger/login",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/webjars/**",
+            "/swagger-resources/**",
+    };
+
     @Autowired
     private JwtAuthFilter authFilter;
 
@@ -48,9 +58,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/passenger/register", "/api/v1/passenger/login", "/api/v1/get-flights", "http://localhost:8080/*").permitAll()
+                .requestMatchers(AUTH_WHITELIST)
+                .permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("")
+                .authorizeHttpRequests().requestMatchers("/api/v1/get-flights")
                 .authenticated().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
