@@ -23,9 +23,14 @@ class BookTicketServiceImplTest {
     @Test
     void bookFlight() {
         BookingRequest bookingRequest = new BookingRequest();
-        bookingRequest.setNumSeatsBooked(12);
-        bookingRequest.setEmailAddress("obusehemmanuel208@gmail.com");
-        bookingRequest.setPassengerName("derek");
+       bookingRequest.setEmailAddress("derek@gmail.com");
+       bookingRequest.setDob("12/13/2023");
+       bookingRequest.setFirstName("derek");
+       bookingRequest.setSeatNumBooked(12);
+       bookingRequest.setNationality("Canada");
+       bookingRequest.setMiddleName("Marcus");
+       bookingRequest.setLastName("Manuel");
+       bookingRequest.setTitle("MR");
 
         assertEquals(HttpStatus.OK,bookTicketService.bookFlight(bookingRequest).getStatus());
     }
