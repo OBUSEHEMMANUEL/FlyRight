@@ -18,16 +18,23 @@ public class BookTicketServiceImpl implements BookTicketService {
     @Autowired
     EmailSenderService emailSenderService;
 
+
     public BookingResponse bookFlight(BookingRequest bookingRequest) {
 
-        String ticketNumber= UUID.randomUUID().toString().substring(0,8);
+
+        String ticketNumber= UUID.randomUUID().toString().substring(0,8) ;
 
        BookTicket bookTicket = new BookTicket();
 
-       bookTicket.setPassengerName(bookingRequest.getPassengerName());
-       bookTicket.setBookingNumber(ticketNumber);
-       bookTicket.setNumSeatsBooked(bookingRequest.getNumSeatsBooked());
+       bookTicket.setDob(bookingRequest.getDob());
+       bookTicket.setFirstName(bookingRequest.getFirstName());
        bookTicket.setEmailAddress(bookingRequest.getEmailAddress());
+       bookTicket.setLastName(bookingRequest.getLastName());
+       bookTicket.setNationality(bookingRequest.getNationality());
+       bookTicket.setMiddleName(bookingRequest.getMiddleName());
+       bookTicket.setTitle(bookingRequest.getTitle());
+       bookTicket.setPhoneNumber(bookingRequest.getPhoneNumber());
+       bookTicket.setSeatNumBooked(bookingRequest.getSeatNumBooked());
 
         bookTicketRepository.save(bookTicket);
 
@@ -41,10 +48,11 @@ public class BookTicketServiceImpl implements BookTicketService {
     }
     private String ticketEmail(BookingRequest bookingRequest, String ticketNumber){
         String subject = "Flight Booking Confirmation";
-        return  "Dear " + bookingRequest.getPassengerName() + "," +
+        return subject +
+                "\n\nDear " + bookingRequest.getLastName() + "," +
                 "\n\nThank you for booking your flight with us. Here are your booking details:\n\nFlight Number:" +
                 " " + ticketNumber +
-                "\nNumber of Seats Booked: " + bookingRequest.getNumSeatsBooked() +
+                "\nBooked Seat Number: " + bookingRequest.getSeatNumBooked() +
                 "\n\nPlease keep this email as your booking confirmation." +
                 "\n\nThank you,\nThe Flight Booking Team";
     }

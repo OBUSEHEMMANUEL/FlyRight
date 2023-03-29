@@ -9,8 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class BookTicket {
     @Id
     private String  id;
-    private String passengerName;
-    private String bookingNumber;
-    private int numSeatsBooked;
+    private String title;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String dob;
+    private String nationality;
+    private String phoneNumber;
     private String emailAddress;
+    private int seatNumBooked;
 }
