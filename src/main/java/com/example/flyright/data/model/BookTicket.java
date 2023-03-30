@@ -18,4 +18,5 @@ public class BookTicket {
     private String phoneNumber;
     private String emailAddress;
     private int seatNumBooked;
+    private String ticketNUmber;
 }
