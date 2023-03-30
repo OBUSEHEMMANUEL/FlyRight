@@ -29,6 +29,7 @@ public class SecurityConfig {
 
     private static String[] AUTH_WHITELIST = {
             "/api/v1/passenger/register",
+            "/api/v1/get-flights",
             "/api/v1/passenger/confirmToken",
             "/api/v1/passenger/login",
             "/swagger-ui/**",
@@ -61,7 +62,7 @@ public class SecurityConfig {
                 .requestMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/v1/get-flights")
+                .authorizeHttpRequests().requestMatchers("")
                 .authenticated().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

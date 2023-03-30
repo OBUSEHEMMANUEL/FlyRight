@@ -17,12 +17,10 @@ public class BookTicketServiceImpl implements BookTicketService {
     BookTicketRepository bookTicketRepository;
     @Autowired
     EmailSenderService emailSenderService;
-
-
     public BookingResponse bookFlight(BookingRequest bookingRequest) {
 
 
-        String ticketNumber= UUID.randomUUID().toString().substring(0,8) ;
+        String ticketNumber= UUID.randomUUID().toString().substring(0,8);
 
        BookTicket bookTicket = new BookTicket();
 
@@ -35,7 +33,7 @@ public class BookTicketServiceImpl implements BookTicketService {
        bookTicket.setTitle(bookingRequest.getTitle());
        bookTicket.setPhoneNumber(bookingRequest.getPhoneNumber());
        bookTicket.setSeatNumBooked(bookingRequest.getSeatNumBooked());
-
+       bookTicket.setTicketNUmber(ticketNumber);
         bookTicketRepository.save(bookTicket);
 
         emailSenderService.send(bookingRequest.getEmailAddress(), ticketEmail(bookingRequest,ticketNumber));
